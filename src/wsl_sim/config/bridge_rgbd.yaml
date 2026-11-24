@@ -1,0 +1,8 @@
+# Depth image of the RGB-D camera. Started only with rgbd:=true. The colour image
+# and camera_info keep their names and come from bridge.yaml: the rgbd_camera
+# publishes them on the same Gazebo topics as the plain camera.
+- ros_topic_name: /camera/depth/image_raw
+  gz_topic_name: /wsl/camera/depth_image
+  ros_type_name: sensor_msgs/msg/Image
+  gz_type_name: gz.msgs.Image
+  direction: GZ_TO_ROS

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>wsl_description</name>
+  <version>0.2.0</version>
+  <description>URDF/Xacro model of the WSL warehouse AMR, a Robotnik RB-Summit-XL Steel: geometry, inertia, sensor frames and Gazebo drive and sensor definitions.</description>
+  <maintainer email="azerbenali5017@gmail.com">Azer Ben Ali</maintainer>
+  <license>Apache-2.0</license>
+  <license file="meshes/rbsummit_steel/LICENSE">BSD-3-Clause</license>
+  <author>Azer Ben Ali</author>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>xacro</exec_depend>
+
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>python3-pytest</test_depend>
+  <test_depend>urdfdom_py</test_depend>
+  <test_depend>liburdfdom-tools</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

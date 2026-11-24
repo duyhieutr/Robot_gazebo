@@ -1,0 +1,37 @@
+# Copyright 2026 Azer Ben Ali
+# SPDX-License-Identifier: Apache-2.0
+#
+# Frontier exploration parameters. Distances in metres, times in seconds.
+
+frontier_explorer:
+  ros__parameters:
+    use_sim_time: true
+    map_topic: /rtabmap/map
+    robot_frame: base_footprint
+
+    # nav_msgs/OccupancyGrid values: free <= free_threshold, occupied >= occupied_threshold,
+    # -1 is unknown. A frontier is a free cell next to an unknown one.
+    free_threshold: 25
+    occupied_threshold: 65
+
+    # Frontier cells closer than this to an occupied cell are ignored: the
+    # robot (0.72 x 0.58 m, plus padding) cannot stand there. Keep it at least
+    # at the half-width of the robot plus the 0.05 m footprint padding.
+    clearance: 0.4
+    # Shorter frontiers are LiDAR speckle at wall edges, not openings.
+    min_frontier_length: 0.5
+
+    # Skip frontiers closer than this to the robot: standing there reveals nothing new.
+    min_goal_distance: 0.6
+    # Reached or failed goals are not chosen again within this radius.
+    blacklist_radius: 0.7
+    # Choice cost = distance - length_weight * frontier length [m].
+    length_weight: 0.5
+
+    tick_period: 1.0
+    # Give up on a frontier after this long.
+    goal_timeout: 120.0
+    # Consecutive ticks without any frontier before exploration is declared complete.
+    no_frontier_patience: 5
+    # Drive back to the spawn pose when finished.
+    return_to_start: true

@@ -1,0 +1,41 @@
+# Added on top of rtabmap.yaml when rgbd:=true.
+#
+# Registration and loop closure stay on the LiDAR (Reg/Strategy 1). The map is
+# built from the LiDAR scans AND the RGB-D camera, in 3D:
+#
+#   Grid/3D true      rtabmap.yaml has "false": the grid is then 2D and
+#                     /rtabmap/cloud_map is that grid drawn flat at z = 0, with
+#                     no height and no real colour, whatever the sensors are.
+#   Grid/Sensor 2     laser scan + depth camera (0 = scan only). The depth
+#                     points carry the colour of the image.
+#
+# /rtabmap/map for Nav2 is still the 2D projection of this 3D map.
+/**/rtabmap:
+  ros__parameters:
+    subscribe_depth: true
+    subscribe_rgb: true
+
+    # Three streams at different rates (scan 10 Hz, colour and depth 20 Hz):
+    # synchronise by nearest time stamp instead of requiring exact matches.
+    approx_sync: true
+    approx_sync_max_interval: 0.05
+    # rtabmap.yaml keeps only the newest scan (queue 1); a synchroniser over
+    # three topics needs a few messages to find a match.
+    topic_queue_size: 10
+    sync_queue_size: 10
+
+    # No visual features: loop closure keeps coming from LiDAR proximity as in
+    # the LiDAR-only configuration, and the images cost no feature extraction.
+    Kp/MaxFeatures: "-1"
+
+    Grid/3D: "true"
+    Grid/Sensor: "2"
+    # rtabmap.yaml drops everything above 2.0 m, which would cut the 2.4 m racks.
+    # Kept finite, not 0 (= unlimited): ceiling structure must not enter the 2D map.
+    Grid/MaxObstacleHeight: "2.5"
+
+    # 3D cloud for RViz. Decimation 2 keeps every second pixel; depth beyond 6 m is
+    # noisy; 3 cm voxels merge overlapping views.
+    cloud_decimation: 2
+    cloud_max_depth: 6.0
+    cloud_voxel_size: 0.03
